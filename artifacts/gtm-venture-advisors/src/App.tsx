@@ -138,6 +138,7 @@ const TEAM = {
       photo: `${BASE}nitin-kaushal.jpg`,
       name: "Nitin Kaushal",
       title: "Senior Managing Director",
+      linkedin: "https://www.linkedin.com/in/nitin-kaushal-a4478425/",
       bio: "35+ years in capital markets and investment banking. Former senior roles at PwC, HSBC Securities, Desjardins Securities, and Vengate Capital Partners. Deep relationships with institutional investors and technology/healthcare company leadership.",
       credentials: ["BSc Chemistry (U of T)", "Chartered Accountant", "CF Corporate Finance"],
     },
@@ -146,6 +147,7 @@ const TEAM = {
       photo: `${BASE}ezra-chang.jpg`,
       name: "Ezra Chang",
       title: "Managing Director",
+      linkedin: "https://www.linkedin.com/in/ezrachang/",
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
       credentials: ["BASc Mech. Eng. (U of T)", "MBA (Ivey)", "P.Eng."],
     },
@@ -154,12 +156,16 @@ const TEAM = {
       photo: `${BASE}david-kideckel.jpg`,
       name: "David Kideckel",
       title: "Managing Director",
+      linkedin: "https://www.linkedin.com/in/davidkideckel/",
       bio: "~20 years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
       credentials: ["PhD Neuroscience & Stats (U of T)", "MBA (U of T)"],
     },
   ],
-  supportTeam:
-    "Supported by the TBDC executive and operations team, including Vik Ashar (CEO), Davinder Gupta, and Anish Mansinghani.",
+  supportTeam: [
+    { name: "Vik Khurana", role: "CEO", linkedin: "https://www.linkedin.com/in/vikram-khurana-1aa97b/" },
+    { name: "Davinder Gurm", linkedin: "https://www.linkedin.com/in/davindergurm/" },
+    { name: "Anish Kaushal", linkedin: "https://www.linkedin.com/in/anish-kaushal-md/" },
+  ],
 };
 
 const SERVICES = {
@@ -723,6 +729,14 @@ function TeamSection() {
               <TeamMemberPhoto photo={p.photo} initials={p.initials} name={p.name} />
               <h3 className="text-lg font-bold text-charcoal">{p.name}</h3>
               <div className="text-teal text-sm font-medium mt-1">{p.title}</div>
+              <a
+                href={p.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 mt-2 text-xs text-gray-400 hover:text-teal transition-colors"
+              >
+                <Linkedin size={13} /> LinkedIn
+              </a>
               <p className="mt-4 text-gray-500 text-sm leading-relaxed">{p.bio}</p>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
                 {p.credentials.map((cred, j) => (
@@ -742,7 +756,22 @@ function TeamSection() {
       <FadeUp delay={0.3}>
         <div className="mt-16 rounded-xl bg-gray-50 border border-gray-200 p-6 md:p-8 text-center">
           <div className="text-xs uppercase tracking-wider text-teal font-medium mb-2">TBDC Support Team</div>
-          <p className="text-gray-500 text-sm leading-relaxed max-w-2xl mx-auto">{TEAM.supportTeam}</p>
+          <p className="text-gray-500 text-sm leading-relaxed max-w-2xl mx-auto">
+            Supported by the TBDC executive and operations team, including{" "}
+            {TEAM.supportTeam.map((m, i) => (
+              <span key={i}>
+                <a
+                  href={m.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-charcoal hover:text-teal transition-colors underline underline-offset-2 decoration-gray-300 hover:decoration-teal"
+                >
+                  {m.name}{m.role ? ` (${m.role})` : ""}
+                </a>
+                {i < TEAM.supportTeam.length - 2 ? ", " : i === TEAM.supportTeam.length - 2 ? ", and " : "."}
+              </span>
+            ))}
+          </p>
         </div>
       </FadeUp>
     </SectionWrap>
