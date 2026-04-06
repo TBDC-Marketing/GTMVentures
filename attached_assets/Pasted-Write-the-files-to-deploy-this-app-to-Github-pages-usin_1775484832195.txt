@@ -1,0 +1,81 @@
+Write the files to deploy this app to Github pages using the following instructions: 
+
+Step 1: Update vite.config.ts
+Add a conditional base property so the app serves from / locally but from /<repo-name>/ on GitHub Pages:
+
+
+base: process.env.GITHUB_PAGES_BASE || "/",
+Add this as the first property inside defineConfig. Your config should look like:
+
+
+export default defineConfig(({ mode }) => ({
+  base: process.env.GITHUB_PAGES_BASE || "/",
+  server: {
+    // ... existing server config
+  },
+  // ... rest of config
+}));
+Step 2: Update src/App.tsx
+Pass basename to BrowserRouter so client-side routing works on the subpath:
+
+
+<BrowserRouter basename={import.meta.env.BASE_URL}>
+Replace your existing <BrowserRouter> with the line above. Vite automatically sets BASE_URL from the base config.
+
+Step 3: Create .github/workflows/deploy.yml
+Create the file .github/workflows/deploy.yml with this exact content:
+
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+        env:
+          GITHUB_PAGES_BASE: /${{ github.event.repository.name }}/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+Note: If the other project uses npm instead of bun, replace the bun steps with:
+
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+Step 4: Enable GitHub Pages in your repo
+Go to your GitHub repository
+Settings → Pages
+Under Source, select GitHub Actions
+Step 5: Push and deploy
+Push your changes to the main branch. The workflow will run automatically, build the app, and deploy it to https://<username>.github.io/<repo-name>/.
