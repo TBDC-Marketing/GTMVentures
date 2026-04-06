@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "GTM Venture Advisors"
+version = "1.0.0"
+id = "artifacts/gtm-venture-advisors"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18206
+
+[services.development]
+run = "pnpm --filter @workspace/gtm-venture-advisors run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gtm-venture-advisors", "run", "build" ]
+publicDir = "artifacts/gtm-venture-advisors/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18206"
+BASE_PATH = "/"
