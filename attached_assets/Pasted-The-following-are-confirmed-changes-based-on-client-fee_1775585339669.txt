@@ -1,0 +1,90 @@
+The following are confirmed changes based on client feedback. Apply them to the current site.
+
+1. CTA Button Text — Global Change
+Change all instances of "Get in Touch" to "Book a Strategic Call" across the entire site. This includes:
+
+The nav bar CTA button (top right)
+The hero section primary CTA button
+The contact/CTA section at the bottom
+
+The mailto: link behavior stays the same for now (info@gtmventureadvisors.com). Just update the label text.
+Source: Davinder — "Can we change 'get in touch' to 'Book a Strategic Call'"
+
+2. Capitalize "Private" in "What We Do" Section
+In the "What We Do" intro paragraph, the text currently reads:
+
+"...a private Capital Markets and Financial Advisory firm..."
+
+Change to:
+
+"...a Private Capital Markets and Financial Advisory firm..."
+
+Capital P on "Private" — it's part of the formal description of their capital markets practice ("Private Capital Markets").
+Source: Ezra Chang — "Capital P for Private as it's part of the description of Capital Markets; 'Private Capital Markets'"
+
+3. Update David Kideckel's Bio — Years of Experience
+David Kideckel's bio currently says "~20 years". Change to "20+ years" to be consistent with how Nitin and Ezra's experience is expressed (35+, 25+).
+Update this in:
+
+The Team section principal card for David Kideckel
+
+Source: David Kideckel — "20+ (to keep consistent with Nitin & Ezra)"
+
+4. Spell Out University/Institution Names in Credentials
+David Kideckel flagged that international clients won't know abbreviations like "U of T" or "Ivey." Update ALL credential badges across all three principals to use full institution names:
+Nitin Kaushal credentials — change to:
+
+"BSc Chemistry (University of Toronto)"
+"Chartered Accountant"
+"CF Corporate Finance"
+
+Ezra Chang credentials — change to:
+
+"BASc Mechanical Engineering (University of Toronto)"
+"MBA (Ivey Business School)"
+"P.Eng."
+
+David Kideckel credentials — change to:
+
+"PhD Neuroscience & Statistics (University of Toronto)"
+"MBA (University of Toronto)"
+
+Note: The credential badges may need to be slightly wider to accommodate the longer text. If they overflow or wrap awkwardly on mobile, reduce font size of the badges to text-[0.6rem] or allow them to wrap to a second line rather than truncating.
+Source: David Kideckel — "i'd list the institutions out in full. International clients won't necessarily know 'U of T' or Ivey."
+
+5. Update Email Domain
+In the contact section and any mailto: links, the email is currently info@gtmventureadvisors.com. Ezra confirmed this is correct but wants it at the .com domain:
+
+info@gtmventureradvisors.com
+
+Verify the current code uses this exact address. If it says info@gtmventureadvisors.com (no 'r' before 'advisors'), keep it — that matches what Ezra wrote. Just confirm consistency across all instances.
+Source: Ezra — "Let's go with an info@gtmventureadvisors.com that gets forwarded to each of us."
+
+6. Update Hero Subhead Copy
+Davinder suggested a tighter subhead. Replace the current hero subhead text:
+Current:
+
+"GTM Venture Advisors combines 80+ years of institutional finance experience with TBDC's international startup ecosystem to help high-growth companies raise capital, structure deals, and reach North American markets."
+
+New:
+
+"We work with Series A to pre-IPO companies to secure capital, structure partnerships, and execute North American expansion — leveraging both institutional networks and the TBDC ecosystem."
+
+This is more specific about who they work with and what they do, which was Davinder's point about the original being "too generic."
+Source: Davinder — "Is this too generic. We could identify who we work with too..."
+
+7. Add "Powered by TBDC" Badge Near Logo
+Davinder liked "Powered by TBDC" as a concept and suggested it appear near the logo. The nav currently shows "A TBDC Company" beneath the GTM name.
+Change the small tagline under the logo in the navigation from:
+
+"A TBDC Company"
+
+to:
+
+"Powered by TBDC"
+
+Keep the same styling (tiny uppercase gray text beneath the logo name).
+Source: Davinder — "'Powered by TBDC' sounds cool if we can put it somewhere w the logo"
+
+Summary of All Replit Changes
+#SectionChange1Global (nav, hero, contact)"Get in Touch" → "Book a Strategic Call"2What We Do intro"private" → "Private" (capitalize)3Team — David Kideckel"~20 years" → "20+ years"4Team — All 3 principalsSpell out full institution names in credentials5Contact / mailtoVerify email is info@gtmventureadvisors.com everywhere6Hero subheadReplace with Davinder's more specific copy7Nav logo tagline"A TBDC Company" → "Powered by TBDC"
