@@ -1,5 +1,6 @@
 {
   "name": "@workspace/gtm-venture-advisors",
+  "homepage": "https://gtmventures.tbdc.com",
   "version": "0.0.0",
   "private": true,
   "type": "module",
