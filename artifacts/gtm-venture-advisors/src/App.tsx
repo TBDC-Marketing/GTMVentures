@@ -26,7 +26,7 @@ const BASE = import.meta.env.BASE_URL;
 
 const SITE = {
   name: "GTM Venture Advisors",
-  tagline: "A TBDC Company",
+  tagline: "Powered by TBDC",
   email: "info@gtmventureadvisors.com",
   address: "111 Peter Street, 9th Floor, Toronto ON M5V 2H1",
   tbdcUrl: "https://tbdc.com",
@@ -44,11 +44,10 @@ const NAV_LINKS = [
 const HERO = {
   eyebrow: "CAPITAL MARKETS & FINANCIAL ADVISORY",
   headlineParts: [
-    { text: "Scaling International Founders into North American ", gold: false },
-    { text: "Institutional Capital.", gold: true },
+    { text: "From international traction to North American capital and market entry.", gold: false },
   ],
   subhead:
-    "GTM Venture Advisors combines 80+ years of institutional finance experience with TBDC's international startup ecosystem to help high-growth companies raise capital, structure deals, and reach North American markets.",
+    "We work with Series A to pre-IPO companies to secure capital, structure partnerships, and execute North American expansion — leveraging both institutional networks and the TBDC ecosystem.",
   stats: [
     { value: "80+", label: "Years Collective Experience" },
     { value: "$1B+", label: "in Managed Financings" },
@@ -60,7 +59,7 @@ const WHAT_WE_DO = {
   eyebrow: "WHAT WE DO",
   headline: "Institutional Expertise. Boutique Agility.",
   intro:
-    "GTM Venture Advisors is a private Capital Markets and Financial Advisory firm and wholly owned subsidiary of TBDC — Toronto's government-backed international startup accelerator. We bring the financial sophistication of global institutions with the agility of a boutique to founders and companies scaling across borders.",
+    "GTM Venture Advisors is a Private Capital Markets and Financial Advisory firm and wholly owned subsidiary of TBDC — Toronto's government-backed international startup accelerator. We bring the financial sophistication of global institutions with the agility of a boutique to founders and companies scaling across borders.",
   cards: [
     {
       icon: "TrendingUp",
@@ -140,7 +139,7 @@ const TEAM = {
       title: "Senior Managing Director",
       linkedin: "https://www.linkedin.com/in/nitin-kaushal-a4478425/",
       bio: "35+ years in capital markets and investment banking. Former senior roles at PwC, HSBC Securities, Desjardins Securities, and Vengate Capital Partners. Deep relationships with institutional investors and technology/healthcare company leadership.",
-      credentials: ["BSc Chemistry (U of T)", "Chartered Accountant", "CF Corporate Finance"],
+      credentials: ["BSc Chemistry (University of Toronto)", "Chartered Accountant", "CF Corporate Finance"],
     },
     {
       initials: "EC",
@@ -149,7 +148,7 @@ const TEAM = {
       title: "Managing Director",
       linkedin: "https://www.linkedin.com/in/ezrachang/",
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
-      credentials: ["BASc Mech. Eng. (U of T)", "MBA (Ivey)", "P.Eng."],
+      credentials: ["BASc Mechanical Engineering (University of Toronto)", "MBA (Ivey Business School)", "P.Eng."],
     },
     {
       initials: "DK",
@@ -157,8 +156,8 @@ const TEAM = {
       name: "David Kideckel",
       title: "Managing Director",
       linkedin: "https://www.linkedin.com/in/davidkideckel/",
-      bio: "~20 years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
-      credentials: ["PhD Neuroscience & Stats (U of T)", "MBA (U of T)"],
+      bio: "20+ years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
+      credentials: ["PhD Neuroscience & Statistics (University of Toronto)", "MBA (University of Toronto)"],
     },
   ],
   supportTeam: [
@@ -389,7 +388,7 @@ function Nav() {
             onClick={() => scrollTo("#contact")}
             className="ml-2 rounded-md bg-teal px-5 py-2 text-sm font-semibold text-white hover:bg-teal-light transition-colors"
           >
-            Get in Touch
+            Book a Strategic Call
           </button>
         </div>
 
@@ -421,7 +420,7 @@ function Nav() {
                 onClick={() => scrollTo("#contact")}
                 className="mt-2 rounded-md bg-teal px-5 py-2.5 text-sm font-semibold text-white text-center"
               >
-                Get in Touch
+                Book a Strategic Call
               </button>
             </div>
           </motion.div>
@@ -498,7 +497,7 @@ function HeroSection() {
             onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
             className="rounded-md bg-teal px-7 py-3 text-sm font-semibold text-white hover:bg-teal-light transition-colors inline-flex items-center gap-2"
           >
-            Get in Touch <ArrowRight size={16} />
+            Book a Strategic Call <ArrowRight size={16} />
           </a>
           <a
             href="#services"
@@ -742,7 +741,7 @@ function TeamSection() {
                 {p.credentials.map((cred, j) => (
                   <span
                     key={j}
-                    className="inline-block text-[0.65rem] uppercase tracking-wider text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full"
+                    className="inline-block text-[0.6rem] uppercase tracking-wider text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full"
                   >
                     {cred}
                   </span>
