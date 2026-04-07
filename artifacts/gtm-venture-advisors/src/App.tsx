@@ -455,7 +455,7 @@ function HeroSection() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          src={`${BASE}gtmhero.mp4`}
+          src={`${BASE}gtmherovideo.mp4`}
         />
         <div className="absolute inset-0 bg-navy/70" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(0,131,143,0.15)_0%,transparent_60%)]" />
