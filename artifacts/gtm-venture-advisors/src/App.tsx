@@ -756,7 +756,7 @@ function TeamSection() {
                 className="mt-3 inline-flex items-center gap-1.5 text-sm text-teal hover:underline hover:text-teal-light transition-colors"
               >
                 <Mail size={14} />
-                {p.emailPrefix}@gtmventureadvisors.com
+                Email {p.name.split(" ")[0]}
               </button>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
                 {p.credentials.map((cred, j) => (
