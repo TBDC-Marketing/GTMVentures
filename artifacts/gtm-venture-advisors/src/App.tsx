@@ -138,6 +138,7 @@ const TEAM = {
       name: "Nitin Kaushal",
       title: "Senior Managing Director",
       linkedin: "https://www.linkedin.com/in/nitin-kaushal-a4478425/",
+      emailPrefix: "nitin",
       bio: "35+ years in capital markets and investment banking. Former senior roles at PwC, HSBC Securities, Desjardins Securities, and Vengate Capital Partners. Deep relationships with institutional investors and technology/healthcare company leadership.",
       credentials: ["BSc Chemistry (University of Toronto)", "Chartered Accountant", "CF Corporate Finance"],
     },
@@ -147,6 +148,7 @@ const TEAM = {
       name: "Ezra Chang",
       title: "Managing Director",
       linkedin: "https://www.linkedin.com/in/ezrachang/",
+      emailPrefix: "ezra",
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
       credentials: ["BASc Mechanical Engineering (University of Toronto)", "MBA (Ivey Business School)", "P.Eng."],
     },
@@ -156,6 +158,7 @@ const TEAM = {
       name: "David Kideckel",
       title: "Managing Director",
       linkedin: "https://www.linkedin.com/in/davidkideckel/",
+      emailPrefix: "david",
       bio: "20+ years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
       credentials: ["PhD Neuroscience & Statistics (University of Toronto)", "MBA (University of Toronto)"],
     },
@@ -213,6 +216,7 @@ const NETWORK = {
   eyebrow: "INTERNATIONAL REACH",
   headline: "Institutional Depth. Global Connections.",
   copy: "GTM Venture Advisors maintains active relationships across the capital ecosystem — from early-stage venture capital and family offices to growth equity, private equity, strategic corporate investors, and government entities offering non-dilutive capital. Our partners' careers span global institutions on three continents, and our network extends wherever ambitious founders need capital.",
+  stat: { value: "50+", label: "Institutional Investors in Our Active Network" },
   tags: [
     "Venture Capital",
     "Family Offices",
@@ -223,6 +227,16 @@ const NETWORK = {
     "Corporate Venture Capital",
   ],
 };
+
+const PAST_EMPLOYERS = [
+  { name: "PwC", logoUrl: null },
+  { name: "HSBC", logoUrl: null },
+  { name: "National Bank Financial", logoUrl: null },
+  { name: "Stifel", logoUrl: null },
+  { name: "Johnson & Johnson", logoUrl: null },
+  { name: "ATB Capital Markets", logoUrl: null },
+  { name: "Desjardins", logoUrl: null },
+];
 
 const CONTACT = {
   eyebrow: "GET IN TOUCH",
@@ -737,6 +751,13 @@ function TeamSection() {
                 <Linkedin size={13} /> LinkedIn
               </a>
               <p className="mt-4 text-gray-500 text-sm leading-relaxed">{p.bio}</p>
+              <button
+                onClick={() => { window.location.href = `mailto:${p.emailPrefix}@gtmventureadvisors.com`; }}
+                className="mt-3 inline-flex items-center gap-1.5 text-sm text-teal hover:underline hover:text-teal-light transition-colors"
+              >
+                <Mail size={14} />
+                {p.emailPrefix}@gtmventureadvisors.com
+              </button>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
                 {p.credentials.map((cred, j) => (
                   <span
@@ -827,6 +848,40 @@ function ServiceItem({
   );
 }
 
+/* ═══════════════════════════════════════════
+   WHERE OUR TEAM HAS WORKED
+   ═══════════════════════════════════════════ */
+
+function PastEmployersSection() {
+  return (
+    <section className="bg-gray-50 border-y border-gray-100 py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <FadeUp>
+          <p className="text-center text-xs uppercase tracking-widest text-gray-400 font-medium mb-8">
+            Where Our Team Has Worked
+          </p>
+        </FadeUp>
+        <FadeUp delay={0.1}>
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            {PAST_EMPLOYERS.map((org, i) => (
+              <div
+                key={i}
+                className="opacity-40 grayscale hover:opacity-70 hover:grayscale-0 transition-all duration-300 flex items-center justify-center bg-white border border-gray-200 rounded-md px-5 py-3 min-w-[120px]"
+              >
+                {org.logoUrl ? (
+                  <img src={org.logoUrl} alt={org.name} className="h-7 object-contain" />
+                ) : (
+                  <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{org.name}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
 function ServicesSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -866,8 +921,15 @@ function NetworkSection() {
           <p className="mt-5 text-gray-500 leading-relaxed text-base md:text-lg">{NETWORK.copy}</p>
         </FadeUp>
 
+        <FadeUp delay={0.15}>
+          <div className="mt-10 mb-10 text-center">
+            <div className="text-4xl md:text-5xl font-bold font-display text-gold">{NETWORK.stat.value}</div>
+            <div className="mt-2 text-sm uppercase tracking-wider text-gray-500">{NETWORK.stat.label}</div>
+          </div>
+        </FadeUp>
+
         <FadeUp delay={0.2}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             {NETWORK.tags.map((tag, i) => (
               <motion.span
                 key={i}
@@ -989,6 +1051,7 @@ export default function App() {
         <SectorsSection />
         <TbdcSection />
         <TeamSection />
+        <PastEmployersSection />
         <ServicesSection />
         <NetworkSection />
         <ContactSection />
