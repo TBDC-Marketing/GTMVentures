@@ -33,40 +33,61 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
+const HERO_FOUNDERS = [
+  {
+    image: `${BASE}hero-founder-1.webp`,
+    label: "SERIES B · HEALTHCARE",
+    caption: "European founder, North American raise",
+    alt: "Portrait of a healthcare-sector founder",
+  },
+  {
+    image: `${BASE}hero-founder-2.webp`,
+    label: "PRE-IPO · INDUSTRIAL",
+    caption: "Asian scaleup, dual-listing readiness",
+    alt: "Portrait of an industrial-sector founder",
+  },
+  {
+    image: `${BASE}hero-founder-3.webp`,
+    label: "CROSS-BORDER · SAAS",
+    caption: "LATAM expansion, growth equity",
+    alt: "Portrait of a SaaS founder",
+  },
+];
+
 const TEAM = {
   principals: [
     {
       initials: "NK",
-      photo: `${BASE}nitin-kaushal.jpg`,
+      photo: `${BASE}principal-nitin.webp`,
       name: "Nitin Kaushal",
       title: "Senior Managing Director",
+      short: "Capital markets across technology and healthcare — 35+ years.",
       linkedin: "https://www.linkedin.com/in/nitin-kaushal-a4478425/",
       emailPrefix: "nitin",
       bio: "35+ years in capital markets and investment banking. Former senior roles at PwC, HSBC Securities, Desjardins Securities, and Vengate Capital Partners. Deep relationships with institutional investors and technology/healthcare company leadership.",
       credentials: ["BSc Chemistry (University of Toronto)", "Chartered Accountant", "CF Corporate Finance"],
-      placeholderGradient: "from-[#D4A843]/20 to-cream-dark",
     },
     {
       initials: "EC",
-      photo: `${BASE}ezra-chang.jpg`,
+      photo: `${BASE}principal-ezra.webp`,
       name: "Ezra Chang",
       title: "Managing Director",
+      short: "Engineering-trained capital markets operator — $1B+ in financings.",
       linkedin: "https://www.linkedin.com/in/ezrachang/",
       emailPrefix: "ezra",
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
       credentials: ["BASc Mechanical Engineering (University of Toronto)", "MBA (Ivey Business School)", "P.Eng."],
-      placeholderGradient: "from-navy/10 to-cream-dark",
     },
     {
       initials: "DK",
-      photo: `${BASE}david-kideckel.jpg`,
+      photo: `${BASE}principal-david.webp`,
       name: "David Kideckel",
       title: "Managing Director",
+      short: "Life sciences equity research and CFO advisory — 20+ years.",
       linkedin: "https://www.linkedin.com/in/davidkideckel/",
       emailPrefix: "david",
       bio: "20+ years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
       credentials: ["PhD Neuroscience & Statistics (University of Toronto)", "MBA (University of Toronto)"],
-      placeholderGradient: "from-ink/5 to-cream-dark",
     },
   ],
   supportTeam: [
@@ -75,6 +96,32 @@ const TEAM = {
     { name: "Anish Kaushal", linkedin: "https://www.linkedin.com/in/anish-kaushal-md/" },
   ],
 };
+
+const PILLAR_SECTIONS = [
+  {
+    imagePosition: "left" as const,
+    image: `${BASE}pillar-embedded.webp`,
+    alt: "Aerial view of Toronto's financial district at dusk",
+    headline: "We're embedded.",
+    body: "GTM Venture Advisors is the capital markets arm of TBDC — a government-backed accelerator that has helped hundreds of international founders scale into North America.",
+    linkText: "Learn about TBDC",
+    linkHref: "https://tbdc.com",
+  },
+  {
+    imagePosition: "right" as const,
+    image: `${BASE}pillar-institutional.webp`,
+    alt: "Architectural detail of a modern boardroom interior",
+    headline: "We're institutional.",
+    body: "Our partners bring 80+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique.",
+  },
+  {
+    imagePosition: "left" as const,
+    image: `${BASE}pillar-outcome.webp`,
+    alt: "Two hands meeting across a table in agreement",
+    headline: "We're outcome-driven.",
+    body: "From Series A to pre-IPO, we advise on capital raises, M&A, partnerships, and public-market readiness. No retainer theater. Every engagement is measured in deals done.",
+  },
+];
 
 const SERVICES_LIST = [
   "Capital Raising",
@@ -95,6 +142,34 @@ const PAST_EMPLOYERS = ["PwC", "HSBC", "National Bank Financial", "Stifel", "Joh
 /* ═══════════════════════════════════════════
    UTILITY COMPONENTS
    ═══════════════════════════════════════════ */
+
+function SafeImage({ src, alt, className = "", loading = "lazy" }: {
+  src: string;
+  alt: string;
+  className?: string;
+  loading?: "lazy" | "eager";
+}) {
+  const [errored, setErrored] = useState(false);
+
+  if (errored) {
+    return (
+      <div className={`w-full h-full bg-cream-dark flex items-center justify-center ${className}`}>
+        <span className="text-xs italic text-ink-muted text-center px-4">{alt}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      onError={() => setErrored(true)}
+      className={`w-full h-full object-cover ${className}`}
+    />
+  );
+}
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -146,31 +221,6 @@ function FadeIn({
     >
       {children}
     </motion.div>
-  );
-}
-
-function EditorialPlaceholder({
-  initials,
-  label,
-  gradient = "from-cream-dark to-ink/5",
-  className = "",
-  rounded = "rounded-[4px]",
-}: {
-  initials?: string;
-  label?: string;
-  gradient?: string;
-  className?: string;
-  rounded?: string;
-}) {
-  return (
-    <div className={`bg-gradient-to-br ${gradient} ${rounded} shadow-sm flex items-center justify-center ${className}`}>
-      {initials && (
-        <span className="font-display italic text-4xl text-ink/40">{initials}</span>
-      )}
-      {label && !initials && (
-        <span className="font-sans text-xs uppercase tracking-widest text-ink-muted/60">{label}</span>
-      )}
-    </div>
   );
 }
 
@@ -228,7 +278,7 @@ function Nav() {
         scrolled ? "bg-cream border-b border-ink/10" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 md:px-8 lg:px-16 h-16 md:h-20">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 md:px-8 lg:px-16 h-20 md:h-24">
         <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2.5">
           <div className="flex flex-col gap-[3px]">
             <div className="w-5 h-[2px] bg-gold" />
@@ -245,7 +295,7 @@ function Nav() {
           </div>
         </button>
 
-        <div className="hidden md:flex items-center gap-7">
+        <div className="hidden md:flex items-center gap-10">
           {NAV_LINKS.map((l) => (
             <button
               key={l.href}
@@ -309,54 +359,12 @@ function ScrollProgress() {
    HERO
    ═══════════════════════════════════════════ */
 
-function HeroPortrait({
-  initials,
-  name,
-  title,
-  photo,
-  height,
-  gradient,
-}: {
-  initials: string;
-  name: string;
-  title: string;
-  photo: string;
-  height: string;
-  gradient: string;
-}) {
-  const [imgError, setImgError] = useState(false);
+function HeroSection() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 0.3], [0, -20]);
 
   return (
-    <motion.div className="flex flex-col items-start" style={{ y }}>
-      {imgError ? (
-        <EditorialPlaceholder
-          initials={initials}
-          gradient={gradient}
-          className={`w-full ${height}`}
-        />
-      ) : (
-        <div className={`w-full ${height} rounded-[4px] overflow-hidden shadow-sm`}>
-          <img
-            src={photo}
-            alt={name}
-            className="w-full h-full object-cover object-top"
-            onError={() => setImgError(true)}
-          />
-        </div>
-      )}
-      <div className="mt-3">
-        <span className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">{name}</span>
-        <span className="font-display italic text-[0.7rem] text-ink-muted ml-1">{title}</span>
-      </div>
-    </motion.div>
-  );
-}
-
-function HeroSection() {
-  return (
-    <section className="relative min-h-screen bg-cream pt-28 md:pt-36 pb-16 md:pb-24">
+    <section className="relative min-h-screen bg-cream pt-32 md:pt-40 pb-16 md:pb-24">
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
         <FadeIn>
           <h1 className="font-display text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] font-normal leading-[1.05] tracking-[-0.02em] text-ink max-w-5xl">
@@ -368,42 +376,30 @@ function HeroSection() {
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-end">
-            <HeroPortrait
-              initials="NK"
-              name="NITIN KAUSHAL"
-              title="Senior Managing Director"
-              photo={TEAM.principals[0].photo}
-              height="h-[280px] md:h-[380px]"
-              gradient="from-[#D4A843]/20 to-cream-dark"
-            />
-            <HeroPortrait
-              initials="EC"
-              name="EZRA CHANG"
-              title="Managing Director"
-              photo={TEAM.principals[1].photo}
-              height="h-[320px] md:h-[420px]"
-              gradient="from-navy/10 to-cream-dark"
-            />
-            <HeroPortrait
-              initials="DK"
-              name="DAVID KIDECKEL"
-              title="Managing Director"
-              photo={TEAM.principals[2].photo}
-              height="h-[260px] md:h-[340px]"
-              gradient="from-ink/5 to-cream-dark"
-            />
-            <div className="hidden md:block">
-              <EditorialPlaceholder
-                label="TORONTO"
-                gradient="from-cream-dark to-ink/5"
-                className="w-full h-[300px]"
-              />
-              <div className="mt-3">
-                <span className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted">Toronto Financial District</span>
+          <motion.div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-end" style={{ y }}>
+            {HERO_FOUNDERS.map((founder, i) => (
+              <div key={i} className="flex flex-col items-start">
+                <div className={`w-full overflow-hidden rounded-sm ${
+                  i === 1 ? "aspect-[4/5] md:h-[460px]" : "aspect-[4/5] md:h-[400px]"
+                }`}>
+                  <SafeImage
+                    src={founder.image}
+                    alt={founder.alt}
+                    loading="eager"
+                    className="object-top"
+                  />
+                </div>
+                <div className="mt-3">
+                  <div className="text-[0.65rem] uppercase tracking-[0.14em] text-ink-muted font-medium">
+                    {founder.label}
+                  </div>
+                  <div className="mt-0.5 font-display italic text-sm text-ink-soft">
+                    {founder.caption}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            ))}
+          </motion.div>
         </FadeIn>
       </div>
     </section>
@@ -434,25 +430,25 @@ function PhilosophyStatement() {
 }
 
 /* ═══════════════════════════════════════════
-   BIG QUOTE SECTIONS
+   BIG QUOTE SECTIONS (PILLARS)
    ═══════════════════════════════════════════ */
 
 function QuoteSection({
   imagePosition,
+  image,
+  alt,
   headline,
   body,
   linkText,
   linkHref,
-  placeholderLabel,
-  placeholderGradient,
 }: {
   imagePosition: "left" | "right";
+  image: string;
+  alt: string;
   headline: string;
   body: string;
   linkText?: string;
   linkHref?: string;
-  placeholderLabel: string;
-  placeholderGradient: string;
 }) {
   const isLeft = imagePosition === "left";
 
@@ -462,11 +458,9 @@ function QuoteSection({
         <FadeIn>
           <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${!isLeft ? "lg:[direction:rtl]" : ""}`}>
             <div className={!isLeft ? "lg:[direction:ltr]" : ""}>
-              <EditorialPlaceholder
-                label={placeholderLabel}
-                gradient={placeholderGradient}
-                className="w-full h-[400px] md:h-[520px]"
-              />
+              <div className="aspect-[4/5] overflow-hidden rounded-sm">
+                <SafeImage src={image} alt={alt} />
+              </div>
             </div>
             <div className={`max-w-[420px] ${!isLeft ? "lg:[direction:ltr]" : ""}`}>
               <h2 className="font-display italic text-3xl md:text-4xl lg:text-[3rem] font-normal leading-[1.1] text-ink">
@@ -497,29 +491,6 @@ function QuoteSection({
    TEAM
    ═══════════════════════════════════════════ */
 
-function InlineTeamPhoto({ photo, initials }: { photo: string; initials: string }) {
-  const [imgError, setImgError] = useState(false);
-
-  if (imgError) {
-    return (
-      <span className="inline-flex w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cream-dark to-ink/10 items-center justify-center align-middle mr-2 border border-ink/10">
-        <span className="font-display italic text-lg text-ink/40">{initials}</span>
-      </span>
-    );
-  }
-
-  return (
-    <span className="inline-block w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden align-middle mr-2 border border-ink/10">
-      <img
-        src={photo}
-        alt=""
-        className="w-full h-full object-cover object-top"
-        onError={() => setImgError(true)}
-      />
-    </span>
-  );
-}
-
 function TeamSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
@@ -536,62 +507,65 @@ function TeamSection() {
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-16 md:mt-20 flex flex-wrap items-baseline gap-x-8 md:gap-x-12 gap-y-6">
+        <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {TEAM.principals.map((p, i) => (
-            <button
-              key={i}
-              onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
-              className="flex items-center group cursor-pointer"
-            >
-              <InlineTeamPhoto photo={p.photo} initials={p.initials} />
-              <span className="font-display italic text-2xl md:text-[2.5rem] text-ink group-hover:text-warm-accent transition-colors leading-tight">
-                {p.name}
-              </span>
-            </button>
+            <div key={i} className="flex flex-col">
+              <div className="aspect-[4/5] overflow-hidden rounded-sm">
+                <SafeImage src={p.photo} alt={p.name} className="object-top" />
+              </div>
+              <h3 className="mt-5 font-display italic text-2xl md:text-3xl text-ink">{p.name}</h3>
+              <p className="mt-1 text-xs uppercase tracking-widest text-ink-muted">{p.title}</p>
+              <p className="mt-2 text-sm text-ink-soft">{p.short}</p>
+              <div className="mt-3 flex items-center gap-3">
+                <a
+                  href={`mailto:${p.emailPrefix}@gtmventureadvisors.com`}
+                  className="text-teal hover:text-ink transition-colors"
+                  aria-label={`Email ${p.name.split(" ")[0]}`}
+                >
+                  <Mail size={15} />
+                </a>
+                <a
+                  href={p.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-teal hover:text-ink transition-colors"
+                  aria-label={`${p.name} LinkedIn`}
+                >
+                  <Linkedin size={15} />
+                </a>
+              </div>
+              <button
+                onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+                className="mt-3 text-left text-teal hover:text-ink text-xs font-medium transition-colors underline underline-offset-2 decoration-teal/40 hover:decoration-ink"
+              >
+                {expandedIndex === i ? "Hide bio" : "Full bio →"}
+              </button>
+              <AnimatePresence>
+                {expandedIndex === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 pt-4 border-t border-ink/10">
+                      <p className="text-ink-soft text-sm leading-relaxed">{p.bio}</p>
+                      <div className="mt-3 flex flex-wrap gap-1">
+                        {p.credentials.map((cred, j) => (
+                          <span key={j} className="text-[0.65rem] uppercase tracking-wider text-ink-muted">
+                            {cred}{j < p.credentials.length - 1 ? " ·" : ""}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ))}
         </div>
       </FadeIn>
-
-      <AnimatePresence>
-        {expandedIndex !== null && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            <div className="mt-10 pt-8 border-t border-ink/10 max-w-2xl">
-              <h3 className="font-display text-xl text-ink">{TEAM.principals[expandedIndex].name}</h3>
-              <p className="text-ink-muted text-sm mt-1">{TEAM.principals[expandedIndex].title}</p>
-              <p className="mt-4 text-ink-soft text-sm leading-relaxed">{TEAM.principals[expandedIndex].bio}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {TEAM.principals[expandedIndex].credentials.map((cred, j) => (
-                  <span key={j} className="text-[0.65rem] uppercase tracking-wider text-ink-muted">
-                    {cred}{j < TEAM.principals[expandedIndex].credentials.length - 1 ? " ·" : ""}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-4 flex items-center gap-4">
-                <a
-                  href={TEAM.principals[expandedIndex].linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-teal hover:text-ink text-sm font-medium transition-colors inline-flex items-center gap-1.5"
-                >
-                  <Linkedin size={14} /> LinkedIn
-                </a>
-                <a
-                  href={`mailto:${TEAM.principals[expandedIndex].emailPrefix}@gtmventureadvisors.com`}
-                  className="text-teal hover:text-ink text-sm font-medium transition-colors inline-flex items-center gap-1.5"
-                >
-                  <Mail size={14} /> Email
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <FadeIn delay={0.25}>
         <p className="mt-16 text-ink-muted text-sm italic">
@@ -669,11 +643,12 @@ function PullQuoteSection() {
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
         <FadeIn>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <EditorialPlaceholder
-              initials="GV"
-              gradient="from-cream-dark to-ink/5"
-              className="w-full h-[400px] md:h-[520px]"
-            />
+            <div className="aspect-[4/5] overflow-hidden rounded-sm">
+              <SafeImage
+                src={`${BASE}quote-nitin.webp`}
+                alt="Nitin Kaushal, Senior Managing Director"
+              />
+            </div>
             <div className="max-w-[420px]">
               <blockquote className="font-display italic text-xl md:text-2xl lg:text-[1.65rem] text-ink leading-relaxed">
                 "When you're scaling internationally, you don't need another consultant. You need someone who's sat on both sides of the boardroom."
@@ -692,6 +667,18 @@ function PullQuoteSection() {
         </FadeIn>
       </div>
     </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   GOLD RULE TRANSITION
+   ═══════════════════════════════════════════ */
+
+function GoldRule() {
+  return (
+    <div className="bg-cream flex justify-center pt-8 pb-16">
+      <div className="h-px w-16 bg-gold" />
+    </div>
   );
 }
 
@@ -855,6 +842,9 @@ function Footer() {
           <p className="text-ink-muted text-xs">
             © {new Date().getFullYear()} {SITE.name}. A wholly owned subsidiary of the Toronto Business Development Centre.
           </p>
+          <p className="text-ink-muted text-[0.6rem] italic mt-2">
+            Hero imagery represents the types of founders and engagements GTM advises. Not depictions of specific clients.
+          </p>
         </div>
       </div>
     </footer>
@@ -873,33 +863,14 @@ export default function App() {
       <main>
         <HeroSection />
         <PhilosophyStatement />
-        <QuoteSection
-          imagePosition="left"
-          headline="We're embedded."
-          body="GTM Venture Advisors is the capital markets arm of TBDC — a government-backed accelerator that has helped hundreds of international founders scale into North America."
-          linkText="Learn about TBDC"
-          linkHref="https://tbdc.com"
-          placeholderLabel="TBDC"
-          placeholderGradient="from-cream-dark to-[#D4A843]/10"
-        />
-        <QuoteSection
-          imagePosition="right"
-          headline="We're institutional."
-          body="Our partners bring 80+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique."
-          placeholderLabel="BOARDROOM"
-          placeholderGradient="from-cream-dark to-navy/10"
-        />
-        <QuoteSection
-          imagePosition="left"
-          headline="We're outcome-driven."
-          body="From Series A to pre-IPO, we advise on capital raises, M&A, partnerships, and public-market readiness. No retainer theater. Every engagement is measured in deals done."
-          placeholderLabel="DEALS"
-          placeholderGradient="from-cream-dark to-ink/5"
-        />
+        {PILLAR_SECTIONS.map((pillar, i) => (
+          <QuoteSection key={i} {...pillar} />
+        ))}
         <TeamSection />
         <PastEmployersSection />
         <ServicesSection />
         <PullQuoteSection />
+        <GoldRule />
         <NetworkSection />
         <ContactSection />
       </main>
