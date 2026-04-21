@@ -4,21 +4,27 @@ export default {
   theme: {
     extend: {
       colors: {
+        cream: {
+          DEFAULT: "#F0EBE1",
+          dark: "#E8E2D6",
+        },
+        ink: {
+          DEFAULT: "#1A1A1A",
+          soft: "#2D2D2D",
+          muted: "#6B6B6B",
+        },
         navy: {
           DEFAULT: "#0A1628",
-          light: "#111D2E",
-          mid: "#162236",
+          soft: "#1A2438",
         },
         teal: {
           DEFAULT: "#00838F",
-          light: "#00A3A3",
         },
         gold: {
           DEFAULT: "#D4A843",
-          muted: "#B8943B",
+          deep: "#B8943B",
         },
-        charcoal: "#1E293B",
-        surface: "#FAFAF7",
+        "warm-accent": "#C84D2E",
       },
       fontFamily: {
         display: ['"Instrument Serif"', "serif"],
