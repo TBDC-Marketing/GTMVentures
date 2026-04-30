@@ -162,13 +162,14 @@ const NETWORK_CATEGORIES = [
 
 const PAST_EMPLOYERS = ["PwC", "HSBC", "National Bank Financial", "Stifel", "Johnson & Johnson", "ATB Capital Markets", "Desjardins"];
 
-const PARTNER_LOGO_PLACEHOLDERS = [
-  "Partner Logo 1",
-  "Partner Logo 2",
-  "Partner Logo 3",
-  "Partner Logo 4",
-  "Partner Logo 5",
-  "Partner Logo 6",
+const PARTNER_LOGOS = [
+  { src: `${BASE}logo-pwc.png`, alt: "PwC" },
+  { src: `${BASE}logo-hsbc.png`, alt: "HSBC" },
+  { src: `${BASE}logo-national-bank.png`, alt: "National Bank Financial" },
+  { src: `${BASE}logo-stifel.png`, alt: "Stifel" },
+  { src: `${BASE}logo-jnj.png`, alt: "Johnson & Johnson" },
+  { src: `${BASE}logo-atb.png`, alt: "ATB Capital Markets" },
+  { src: `${BASE}logo-desjardins.png`, alt: "Desjardins" },
 ];
 
 /* ═══════════════════════════════════════════
@@ -703,6 +704,45 @@ function TeamSection() {
    SUPPORTED BY TBDC EXPERTISE
    ═══════════════════════════════════════════ */
 
+function LogoCarousel() {
+  const reduced = usePrefersReducedMotion();
+  const logos = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
+
+  return (
+    <div className="relative overflow-hidden py-2">
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-cream-dark to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-cream-dark to-transparent z-10 pointer-events-none" />
+      <motion.div
+        className="flex items-center gap-12 md:gap-16 w-max"
+        animate={reduced ? {} : { x: ["0%", "-50%"] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 30,
+            ease: "linear",
+          },
+        }}
+      >
+        {logos.map((logo, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-center shrink-0 h-10 md:h-12 w-28 md:w-36 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+          >
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              loading="lazy"
+              decoding="async"
+              className="max-h-full max-w-full object-contain"
+            />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function TBDCExpertiseSection() {
   return (
     <section className="bg-cream-dark py-12 md:py-16">
@@ -726,17 +766,7 @@ function TBDCExpertiseSection() {
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          {/* Logo carousel placeholder — replace with actual partner/TBDC logos */}
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-6">
-            {PARTNER_LOGO_PLACEHOLDERS.map((label, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center w-28 h-12 md:w-36 md:h-14 border border-ink/10 rounded-sm bg-cream/60 text-ink-muted text-[0.6rem] uppercase tracking-widest"
-              >
-                {label}
-              </div>
-            ))}
-          </div>
+          <LogoCarousel />
         </FadeIn>
 
         <FadeIn delay={0.2}>
