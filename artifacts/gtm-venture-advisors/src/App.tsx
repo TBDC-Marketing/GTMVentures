@@ -125,6 +125,8 @@ const SERVICE_PILLARS = [
   {
     icon: TrendingUp,
     title: "Capital Fundraising Strategy",
+    image: `${BASE}pillar-fundraising.jpg`,
+    alt: "Executive strategy session with financial materials and presentation planning",
     items: [
       "Pitch & presentation refinement",
       "Current and future raise planning",
@@ -135,6 +137,8 @@ const SERVICE_PILLARS = [
   {
     icon: Users,
     title: "Investor Access",
+    image: `${BASE}pillar-investor-access.jpg`,
+    alt: "Executives in conversation during a professional advisory meeting",
     items: [
       "Institutional investor introductions",
       "Strategic investor matching",
@@ -145,6 +149,8 @@ const SERVICE_PILLARS = [
   {
     icon: Briefcase,
     title: "Deal Structuring, Expansion & Market Entry",
+    image: `${BASE}pillar-deal-structuring.jpg`,
+    alt: "Business meeting focused on documents and deal execution",
     items: [
       "Term sheet negotiation",
       "Risk review & mitigation",
@@ -780,6 +786,8 @@ function TBDCExpertiseSection() {
    ═══════════════════════════════════════════ */
 
 function ServicesSection() {
+  const reduced = usePrefersReducedMotion();
+
   return (
     <SectionWrap id="services">
       <FadeIn>
@@ -795,30 +803,42 @@ function ServicesSection() {
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {SERVICE_PILLARS.map((pillar, i) => {
             const Icon = pillar.icon;
             return (
               <motion.div
                 key={i}
-                className="bg-cream-dark/50 border border-ink/5 rounded-sm p-6 md:p-8 group hover:border-gold/30 transition-colors duration-300"
-                whileHover={{ y: -4 }}
+                className="group relative min-h-[420px] md:min-h-[500px] overflow-hidden rounded-sm border border-ink/10 bg-ink shadow-[0_24px_60px_rgba(15,23,28,0.14)]"
+                whileHover={reduced ? undefined : { y: -2 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center mb-4 group-hover:bg-gold/20 transition-colors">
-                  <Icon size={20} className="text-gold" />
+                <div className="absolute inset-0">
+                  <SafeImage
+                    src={pillar.image}
+                    alt={pillar.alt}
+                    className="transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
                 </div>
-                <h3 className="font-display italic text-xl md:text-2xl text-ink mb-4">
-                  {pillar.title}
-                </h3>
-                <ul className="space-y-2">
-                  {pillar.items.map((item, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-ink-muted">
-                      <span className="w-1 h-1 rounded-full bg-gold mt-2 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,24,28,0.42)_0%,rgba(18,24,28,0.56)_38%,rgba(18,24,28,0.78)_100%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,170,92,0.16),transparent_38%)]" />
+
+                <div className="relative z-10 flex h-full flex-col p-7 md:p-8 lg:p-9 text-cream">
+                  <div className="w-11 h-11 rounded-full border border-cream/25 bg-cream/10 backdrop-blur-[2px] flex items-center justify-center mb-5 shrink-0">
+                    <Icon size={20} className="text-cream" />
+                  </div>
+                  <h3 className="max-w-[12ch] font-display text-[2rem] md:text-[2.2rem] leading-[1.05] text-cream mb-6">
+                    {pillar.title}
+                  </h3>
+                  <ul className="mt-auto space-y-3 pr-2">
+                    {pillar.items.map((item, j) => (
+                      <li key={j} className="flex items-start gap-3 text-[0.98rem] leading-7 text-cream/90">
+                        <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             );
           })}
