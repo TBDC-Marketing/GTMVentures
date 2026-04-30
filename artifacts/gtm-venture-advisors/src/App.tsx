@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
-  ChevronDown,
   Menu,
   X,
   ArrowRight,
   ArrowUpRight,
   Mail,
   Linkedin,
+  TrendingUp,
+  Users,
+  Briefcase,
 } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL;
@@ -18,7 +20,8 @@ const BASE = import.meta.env.BASE_URL;
 
 const SITE = {
   name: "GTM Venture Advisors",
-  tagline: "Powered by TBDC",
+  tagline: "The Capital Markets Advisory Arm of TBDC",
+  heroHeadline: "We help Series A to pre-IPO companies raise capital and execute North American expansion.",
   email: "info@gtmventureadvisors.com",
   address: "111 Peter Street, 9th Floor, Toronto ON M5V 2H1",
   tbdcUrl: "https://tbdc.com",
@@ -33,24 +36,24 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-const HERO_FOUNDERS = [
+const HERO_SECTORS = [
   {
-    image: `${BASE}hero-founder-1.webp`,
-    label: "SERIES B · HEALTHCARE",
-    caption: "European founder, North American raise",
-    alt: "Portrait of a healthcare-sector founder",
+    image: `${BASE}sector-technology.jpg`,
+    label: "TECHNOLOGY",
+    caption: "Enterprise SaaS, infrastructure & platforms",
+    alt: "Modern data center with server racks representing the technology sector",
   },
   {
-    image: `${BASE}hero-founder-2.webp`,
-    label: "PRE-IPO · INDUSTRIAL",
-    caption: "Asian scaleup, dual-listing readiness",
-    alt: "Portrait of an industrial-sector founder",
+    image: `${BASE}sector-healthtech.jpg`,
+    label: "HEALTH TECH",
+    caption: "Biotech, medtech & digital health",
+    alt: "Laboratory equipment representing the health tech sector",
   },
   {
-    image: `${BASE}hero-founder-3.webp`,
-    label: "CROSS-BORDER · SAAS",
-    caption: "LATAM expansion, growth equity",
-    alt: "Portrait of a SaaS founder",
+    image: `${BASE}sector-ai.jpg`,
+    label: "AI & DEEP TECH",
+    caption: "Machine learning, automation & frontier tech",
+    alt: "Abstract circuit design representing the AI and deep tech sector",
   },
 ];
 
@@ -72,7 +75,7 @@ const TEAM = {
       photo: `${BASE}principal-ezra.webp`,
       name: "Ezra Chang",
       title: "Managing Director",
-      short: "Engineering-trained capital markets operator — $1B+ in financings.",
+      short: "Engineering-trained capital markets professional — $1B+ in financings.",
       linkedin: "https://www.linkedin.com/in/ezrachang/",
       emailPrefix: "ezra",
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
@@ -90,11 +93,6 @@ const TEAM = {
       credentials: ["PhD Neuroscience & Statistics (University of Toronto)", "MBA (University of Toronto)"],
     },
   ],
-  supportTeam: [
-    { name: "Vik Khurana", role: "CEO", linkedin: "https://www.linkedin.com/in/vikram-khurana-1aa97b/" },
-    { name: "Davinder Gurm", linkedin: "https://www.linkedin.com/in/davindergurm/" },
-    { name: "Anish Kaushal", linkedin: "https://www.linkedin.com/in/anish-kaushal-md/" },
-  ],
 };
 
 const PILLAR_SECTIONS = [
@@ -103,7 +101,7 @@ const PILLAR_SECTIONS = [
     image: `${BASE}pillar-embedded.webp`,
     alt: "Aerial view of Toronto's financial district at dusk",
     headline: "We're embedded.",
-    body: "GTM Venture Advisors is the capital markets arm of TBDC — a government-backed accelerator that has helped hundreds of international founders scale into North America.",
+    body: "GTM Venture Advisors is the capital markets advisory arm of TBDC — a government-backed accelerator that has helped hundreds of international founders scale into North America.",
     linkText: "Learn about TBDC",
     linkHref: "https://tbdc.com",
   },
@@ -119,16 +117,41 @@ const PILLAR_SECTIONS = [
     image: `${BASE}pillar-outcome.webp`,
     alt: "Two hands meeting across a table in agreement",
     headline: "We're outcome-driven.",
-    body: "From Series A to pre-IPO, we advise on capital raises, M&A, partnerships, and public-market readiness. No retainer theater. Every engagement is measured in deals done.",
+    body: "Our engagements are structured around clear outcomes: the right capital, the right partners, and deals that get done.",
   },
 ];
 
-const SERVICES_LIST = [
-  "Capital Raising",
-  "M&A Advisory",
-  "IPO / RTO Readiness",
-  "Corporate Development",
-  "Government & Non-Dilutive",
+const SERVICE_PILLARS = [
+  {
+    icon: TrendingUp,
+    title: "Capital Fundraising Strategy",
+    items: [
+      "Pitch & presentation refinement",
+      "Current and future raise planning",
+      "Strategic decision guidance",
+      "Corporate restructuring considerations",
+    ],
+  },
+  {
+    icon: Users,
+    title: "Investor Access",
+    items: [
+      "Institutional investor introductions",
+      "Strategic investor matching",
+      "Meeting preparation & coaching",
+      "Relationship management",
+    ],
+  },
+  {
+    icon: Briefcase,
+    title: "Deal Structuring, Expansion & Market Entry",
+    items: [
+      "Term sheet negotiation",
+      "Risk review & mitigation",
+      "North American market entry strategy",
+      "Cross-border deal execution",
+    ],
+  },
 ];
 
 const NETWORK_CATEGORIES = [
@@ -138,6 +161,31 @@ const NETWORK_CATEGORIES = [
 ];
 
 const PAST_EMPLOYERS = ["PwC", "HSBC", "National Bank Financial", "Stifel", "Johnson & Johnson", "ATB Capital Markets", "Desjardins"];
+
+const PARTNER_LOGO_PLACEHOLDERS = [
+  "Partner Logo 1",
+  "Partner Logo 2",
+  "Partner Logo 3",
+  "Partner Logo 4",
+  "Partner Logo 5",
+  "Partner Logo 6",
+];
+
+/* ═══════════════════════════════════════════
+   REDUCED-MOTION HOOK
+   ═══════════════════════════════════════════ */
+
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return prefersReduced;
+}
 
 /* ═══════════════════════════════════════════
    UTILITY COMPONENTS
@@ -173,7 +221,7 @@ function SafeImage({ src, alt, className = "", loading = "lazy" }: {
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block text-[0.7rem] font-medium uppercase tracking-[0.12em] text-ink-muted mb-4">
+    <span className="inline-block text-[0.7rem] font-medium uppercase tracking-[0.12em] text-ink-muted mb-3">
       {children}
     </span>
   );
@@ -193,7 +241,7 @@ function SectionWrap({
   return (
     <section
       id={id}
-      className={`relative py-24 md:py-32 ${dark ? "bg-navy text-cream" : "bg-cream text-ink"} ${className}`}
+      className={`relative py-16 md:py-20 ${dark ? "bg-navy text-cream" : "bg-cream text-ink"} ${className}`}
     >
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">{children}</div>
     </section>
@@ -204,19 +252,32 @@ function FadeIn({
   children,
   delay = 0,
   className = "",
+  direction = "up",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  direction?: "up" | "none";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const reduced = usePrefersReducedMotion();
+
+  const initial = reduced
+    ? { opacity: 1 }
+    : { opacity: 0, ...(direction === "up" ? { y: 24 } : {}) };
+  const animate = reduced
+    ? { opacity: 1 }
+    : inView
+      ? { opacity: 1, y: 0 }
+      : {};
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+      initial={initial}
+      animate={animate}
+      transition={{ duration: 0.7, delay: reduced ? 0 : delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -280,7 +341,8 @@ function Nav() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 md:px-8 lg:px-16 h-20 md:h-24">
         <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2.5">
-          <div className="flex flex-col gap-[3px]">
+          {/* Placeholder-ready area for GTM/TBDC logo lockup */}
+          <div className="flex flex-col gap-[3px]" aria-label="GTM Venture Advisors logo placeholder">
             <div className="w-5 h-[2px] bg-gold" />
             <div className="w-5 h-[2px] bg-gold" />
             <div className="w-5 h-[2px] bg-gold" />
@@ -289,9 +351,15 @@ function Nav() {
             <span className="text-ink font-medium text-sm leading-tight tracking-tight">
               GTM Venture Advisors
             </span>
-            <span className="text-ink-muted text-[0.55rem] uppercase tracking-[0.12em] leading-none mt-0.5">
+            <a
+              href={SITE.tbdcUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink-muted hover:text-teal text-[0.55rem] uppercase tracking-[0.12em] leading-none mt-0.5 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
               Powered by TBDC
-            </span>
+            </a>
           </div>
         </button>
 
@@ -364,42 +432,97 @@ function HeroSection() {
   const y = useTransform(scrollYProgress, [0, 0.3], [0, -20]);
 
   return (
-    <section className="relative min-h-screen bg-cream pt-32 md:pt-40 pb-16 md:pb-24">
+    <section className="relative min-h-screen bg-cream pt-28 md:pt-36 pb-12 md:pb-16">
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
         <FadeIn>
           <h1 className="font-display text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] font-normal leading-[1.05] tracking-[-0.02em] text-ink max-w-5xl">
-            We help founders turn{" "}
-            <em className="text-gold">international traction</em>{" "}
-            into{" "}
-            <em className="text-gold">North American capital.</em>
+            {SITE.heroHeadline.split("raise capital").map((part, i, arr) =>
+              i < arr.length - 1 ? (
+                <span key={i}>
+                  {part}
+                  <em className="text-gold">raise capital</em>
+                </span>
+              ) : (
+                <span key={i}>{part}</span>
+              ),
+            )}
           </h1>
         </FadeIn>
 
-        <FadeIn delay={0.2}>
-          <motion.div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-end" style={{ y }}>
-            {HERO_FOUNDERS.map((founder, i) => (
-              <div key={i} className="flex flex-col items-start">
-                <div className={`w-full overflow-hidden rounded-sm ${
+        <FadeIn delay={0.15}>
+          <p className="mt-6 text-ink-muted text-lg md:text-xl max-w-2xl leading-relaxed">
+            Raise capital faster. Scale with confidence. Execute your North American expansion with institutional-grade advisory.
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.25}>
+          <motion.div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-end" style={{ y }}>
+            {HERO_SECTORS.map((sector, i) => (
+              <motion.div
+                key={i}
+                className="flex flex-col items-start group"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className={`w-full overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-shadow duration-300 ${
                   i === 1 ? "aspect-[4/5] md:h-[460px]" : "aspect-[4/5] md:h-[400px]"
                 }`}>
                   <SafeImage
-                    src={founder.image}
-                    alt={founder.alt}
+                    src={sector.image}
+                    alt={sector.alt}
                     loading="eager"
-                    className="object-top"
+                    className="object-top group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 </div>
                 <div className="mt-3">
                   <div className="text-[0.65rem] uppercase tracking-[0.14em] text-ink-muted font-medium">
-                    {founder.label}
+                    {sector.label}
                   </div>
                   <div className="mt-0.5 font-display italic text-sm text-ink-soft">
-                    {founder.caption}
+                    {sector.caption}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   TBDC LOGO LOCKUP / "POWERED BY" AREA
+   ═══════════════════════════════════════════ */
+
+function TBDCLockup() {
+  return (
+    <section className="bg-cream py-8 md:py-10 border-t border-b border-ink/5">
+      <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
+        <FadeIn>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+            {/* Placeholder for GTM/TBDC logo lockup — replace with final asset */}
+            <div className="flex items-center gap-3 px-6 py-3 border border-ink/10 rounded-sm bg-cream-dark/30">
+              <div className="flex flex-col gap-[2px]">
+                <div className="w-4 h-[2px] bg-gold" />
+                <div className="w-4 h-[2px] bg-gold" />
+                <div className="w-4 h-[2px] bg-gold" />
+              </div>
+              <span className="text-ink font-medium text-sm">GTM Venture Advisors</span>
+              <span className="text-ink-muted text-xs mx-1">|</span>
+              <a
+                href={SITE.tbdcUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal hover:text-ink text-sm font-medium transition-colors"
+              >
+                TBDC
+              </a>
+            </div>
+            <p className="text-ink-muted text-xs text-center sm:text-left">
+              {SITE.tagline}
+            </p>
+          </div>
         </FadeIn>
       </div>
     </section>
@@ -419,7 +542,7 @@ function PhilosophyStatement() {
           The international operators ready for their North American moment — with traction
           in their home markets and appetite for scale.
         </p>
-        <div className="mt-10">
+        <div className="mt-8">
           <PillButton href="#services">
             Our Philosophy <ArrowRight size={14} />
           </PillButton>
@@ -453,10 +576,10 @@ function QuoteSection({
   const isLeft = imagePosition === "left";
 
   return (
-    <section className="bg-cream py-24 md:py-32">
+    <section className="bg-cream py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
         <FadeIn>
-          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${!isLeft ? "lg:[direction:rtl]" : ""}`}>
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center ${!isLeft ? "lg:[direction:rtl]" : ""}`}>
             <div className={!isLeft ? "lg:[direction:ltr]" : ""}>
               <div className="aspect-[4/5] overflow-hidden rounded-sm">
                 <SafeImage src={image} alt={alt} />
@@ -466,7 +589,7 @@ function QuoteSection({
               <h2 className="font-display italic text-3xl md:text-4xl lg:text-[3rem] font-normal leading-[1.1] text-ink">
                 {headline}
               </h2>
-              <p className="mt-6 text-ink-muted text-base md:text-lg leading-relaxed">
+              <p className="mt-5 text-ink-muted text-base md:text-lg leading-relaxed">
                 {body}
               </p>
               {linkText && linkHref && (
@@ -474,7 +597,7 @@ function QuoteSection({
                   href={linkHref}
                   target={linkHref.startsWith("http") ? "_blank" : undefined}
                   rel={linkHref.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="inline-flex items-center gap-1.5 mt-6 text-teal hover:text-ink text-sm font-medium transition-colors underline underline-offset-4 decoration-teal/40 hover:decoration-ink"
+                  className="inline-flex items-center gap-1.5 mt-5 text-teal hover:text-ink text-sm font-medium transition-colors underline underline-offset-4 decoration-teal/40 hover:decoration-ink"
                 >
                   {linkText} <ArrowUpRight size={14} />
                 </a>
@@ -501,19 +624,25 @@ function TeamSection() {
         <h2 className="font-display text-3xl md:text-4xl lg:text-[4rem] font-normal leading-[1.1] text-ink max-w-2xl">
           Decades of <em className="text-gold">global experience.</em>
         </h2>
-        <p className="mt-5 text-ink-muted text-base md:text-lg leading-relaxed max-w-xl">
+        <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed max-w-xl">
           Our principals bring 80+ years of combined capital markets expertise from the world's leading financial institutions.
         </p>
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {TEAM.principals.map((p, i) => (
-            <div key={i} className="flex flex-col">
-              <div className="aspect-[4/5] overflow-hidden rounded-sm">
+            <motion.div
+              key={i}
+              className="flex flex-col group"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Image path is easy to swap — update the photo field in TEAM.principals */}
+              <div className="aspect-[4/5] overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-shadow duration-300">
                 <SafeImage src={p.photo} alt={p.name} className="object-top" />
               </div>
-              <h3 className="mt-5 font-display italic text-2xl md:text-3xl text-ink">{p.name}</h3>
+              <h3 className="mt-4 font-display italic text-2xl md:text-3xl text-ink">{p.name}</h3>
               <p className="mt-1 text-xs uppercase tracking-widest text-ink-muted">{p.title}</p>
               <p className="mt-2 text-sm text-ink-soft">{p.short}</p>
               <div className="mt-3 flex items-center gap-3">
@@ -562,35 +691,67 @@ function TeamSection() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </FadeIn>
-
-      <FadeIn delay={0.25}>
-        <p className="mt-16 text-ink-muted text-sm italic">
-          Supported by TBDC's executive team:{" "}
-          {TEAM.supportTeam.map((m, i) => (
-            <span key={i}>
-              <a
-                href={m.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-ink underline underline-offset-2 decoration-ink/20 hover:decoration-ink transition-colors"
-              >
-                {m.name}
-              </a>
-              {i < TEAM.supportTeam.length - 2 ? ", " : i === TEAM.supportTeam.length - 2 ? ", and " : "."}
-            </span>
-          ))}
-        </p>
       </FadeIn>
     </SectionWrap>
   );
 }
 
 /* ═══════════════════════════════════════════
-   SERVICES
+   SUPPORTED BY TBDC EXPERTISE
+   ═══════════════════════════════════════════ */
+
+function TBDCExpertiseSection() {
+  return (
+    <section className="bg-cream-dark py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
+        <FadeIn>
+          <div className="text-center mb-8">
+            <Eyebrow>SUPPORTED BY TBDC EXPERTISE</Eyebrow>
+            <p className="font-display italic text-lg md:text-xl text-ink-soft leading-relaxed max-w-2xl mx-auto">
+              Backed by the full resources and network of the{" "}
+              <a
+                href={SITE.tbdcUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal hover:text-ink underline underline-offset-2 decoration-teal/40 hover:decoration-ink transition-colors"
+              >
+                Toronto Business Development Centre
+              </a>
+              .
+            </p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15}>
+          {/* Logo carousel placeholder — replace with actual partner/TBDC logos */}
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-6">
+            {PARTNER_LOGO_PLACEHOLDERS.map((label, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-center w-28 h-12 md:w-36 md:h-14 border border-ink/10 rounded-sm bg-cream/60 text-ink-muted text-[0.6rem] uppercase tracking-widest"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.2}>
+          <p className="mt-8 text-center text-ink-muted text-sm italic">
+            Where our team has worked:{" "}
+            {PAST_EMPLOYERS.join(" · ")}
+          </p>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   SERVICES (THREE VISUAL PILLARS)
    ═══════════════════════════════════════════ */
 
 function ServicesSection() {
@@ -599,31 +760,48 @@ function ServicesSection() {
       <FadeIn>
         <div className="max-w-2xl mx-auto text-center">
           <Eyebrow>WHAT WE DO</Eyebrow>
-          <p className="font-display text-xl md:text-2xl text-ink-soft leading-relaxed">
-            We advise across the full capital lifecycle:
+          <h2 className="font-display text-3xl md:text-4xl lg:text-[3rem] font-normal leading-[1.1] text-ink">
+            Full-cycle capital <em className="text-gold">advisory.</em>
+          </h2>
+          <p className="mt-4 font-display italic text-lg md:text-xl text-ink-muted leading-relaxed">
+            We advise across the full capital lifecycle — from strategy through close.
           </p>
         </div>
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-14 max-w-xl mx-auto">
-          {SERVICES_LIST.map((service, i) => (
-            <div key={i}>
-              <div className="py-5 md:py-6 text-center">
-                <span className="font-display text-2xl md:text-3xl lg:text-[2.25rem] text-ink font-normal">
-                  {service}
-                </span>
-              </div>
-              {i < SERVICES_LIST.length - 1 && (
-                <div className="border-t border-ink/10" />
-              )}
-            </div>
-          ))}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {SERVICE_PILLARS.map((pillar, i) => {
+            const Icon = pillar.icon;
+            return (
+              <motion.div
+                key={i}
+                className="bg-cream-dark/50 border border-ink/5 rounded-sm p-6 md:p-8 group hover:border-gold/30 transition-colors duration-300"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center mb-4 group-hover:bg-gold/20 transition-colors">
+                  <Icon size={20} className="text-gold" />
+                </div>
+                <h3 className="font-display italic text-xl md:text-2xl text-ink mb-4">
+                  {pillar.title}
+                </h3>
+                <ul className="space-y-2">
+                  {pillar.items.map((item, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm text-ink-muted">
+                      <span className="w-1 h-1 rounded-full bg-gold mt-2 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            );
+          })}
         </div>
       </FadeIn>
 
       <FadeIn delay={0.25}>
-        <div className="mt-14 text-center">
+        <div className="mt-10 text-center">
           <PillButton href="#contact">
             Start a conversation <ArrowRight size={14} />
           </PillButton>
@@ -638,11 +816,15 @@ function ServicesSection() {
    ═══════════════════════════════════════════ */
 
 function PullQuoteSection() {
+  /* Quote content — easy to swap with an approved final quote */
+  const quoteText = "When you're scaling internationally, you don't need another consultant. You need someone who's sat on both sides of the boardroom.";
+  const quoteAttribution = "Nitin Kaushal, Senior Managing Director";
+
   return (
-    <section className="bg-cream py-24 md:py-32">
+    <section className="bg-cream py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
         <FadeIn>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="aspect-[4/5] overflow-hidden rounded-sm">
               <SafeImage
                 src={`${BASE}quote-nitin.webp`}
@@ -651,10 +833,10 @@ function PullQuoteSection() {
             </div>
             <div className="max-w-[420px]">
               <blockquote className="font-display italic text-xl md:text-2xl lg:text-[1.65rem] text-ink leading-relaxed">
-                "When you're scaling internationally, you don't need another consultant. You need someone who's sat on both sides of the boardroom."
+                "{quoteText}"
               </blockquote>
-              <p className="mt-6 text-ink-muted text-sm">
-                Nitin Kaushal, Senior Managing Director
+              <p className="mt-5 text-ink-muted text-sm">
+                {quoteAttribution}
               </p>
               <a
                 href="#team"
@@ -676,7 +858,7 @@ function PullQuoteSection() {
 
 function GoldRule() {
   return (
-    <div className="bg-cream flex justify-center pt-8 pb-16">
+    <div className="bg-cream flex justify-center pt-4 pb-8">
       <div className="h-px w-16 bg-gold" />
     </div>
   );
@@ -699,9 +881,9 @@ function NetworkSection() {
       </FadeIn>
 
       <FadeIn delay={0.15}>
-        <div className="mt-16 max-w-3xl mx-auto">
+        <div className="mt-12 max-w-3xl mx-auto">
           {NETWORK_CATEGORIES.map((row, i) => (
-            <div key={i} className="flex flex-wrap justify-center gap-x-12 md:gap-x-16 gap-y-4 mb-6 md:mb-8">
+            <div key={i} className="flex flex-wrap justify-center gap-x-12 md:gap-x-16 gap-y-3 mb-5 md:mb-6">
               {row.map((cat, j) => (
                 <span key={j} className="font-display text-xl md:text-2xl text-cream/80 font-normal">
                   {cat}
@@ -713,7 +895,7 @@ function NetworkSection() {
       </FadeIn>
 
       <FadeIn delay={0.25}>
-        <div className="mt-12 text-center">
+        <div className="mt-10 text-center">
           <PillButton href="#contact" dark>
             Access our network <ArrowRight size={14} />
           </PillButton>
@@ -721,11 +903,13 @@ function NetworkSection() {
       </FadeIn>
 
       <FadeIn delay={0.3}>
-        <div className="mt-16 text-center">
-          <span className="font-display text-5xl md:text-6xl text-cream">50+</span>
-          <p className="font-display italic text-sm text-cream/50 mt-2">
-            Institutional investors in our active network
-          </p>
+        <div className="mt-12 flex justify-center">
+          <div className="text-center">
+            <span className="font-display text-5xl md:text-6xl text-cream">50+</span>
+            <p className="font-display italic text-sm text-cream/50 mt-2">
+              Institutional investors in our active network
+            </p>
+          </div>
         </div>
       </FadeIn>
     </SectionWrap>
@@ -733,31 +917,12 @@ function NetworkSection() {
 }
 
 /* ═══════════════════════════════════════════
-   WHERE OUR TEAM HAS WORKED
-   ═══════════════════════════════════════════ */
-
-function PastEmployersSection() {
-  return (
-    <section className="bg-cream py-12 md:py-16">
-      <div className="mx-auto max-w-6xl px-5 md:px-8 lg:px-16">
-        <FadeIn>
-          <p className="text-center text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted font-medium mb-8">
-            Where Our Team Has Worked
-          </p>
-          <p className="text-center text-base text-ink leading-relaxed">
-            {PAST_EMPLOYERS.join(" · ")}
-          </p>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   CONTACT
+   CONTACT (FLEXIBLE)
    ═══════════════════════════════════════════ */
 
 function ContactSection() {
+  const [formMode] = useState<"email" | "form" | "both">("both");
+
   return (
     <SectionWrap id="contact">
       <FadeIn>
@@ -765,22 +930,78 @@ function ContactSection() {
           <h2 className="font-display text-4xl md:text-5xl lg:text-[4rem] font-normal leading-[1.1] text-ink">
             Let's <em className="text-gold">talk.</em>
           </h2>
-          <p className="mt-5 font-display italic text-lg md:text-xl text-ink-muted">
+          <p className="mt-4 font-display italic text-lg md:text-xl text-ink-muted">
             One conversation is usually enough to know if we're a fit.
           </p>
-          <a
-            href={`mailto:${SITE.email}`}
-            className="inline-block mt-8 font-display italic text-xl md:text-2xl text-ink underline underline-offset-4 decoration-ink/30 hover:text-warm-accent hover:decoration-warm-accent transition-colors"
-          >
-            {SITE.email}
-          </a>
+
+          {/* General inbox — always shown */}
+          {(formMode === "email" || formMode === "both") && (
+            <div className="mt-8">
+              <a
+                href={`mailto:${SITE.email}`}
+                className="inline-block font-display italic text-xl md:text-2xl text-ink underline underline-offset-4 decoration-ink/30 hover:text-warm-accent hover:decoration-warm-accent transition-colors"
+              >
+                {SITE.email}
+              </a>
+            </div>
+          )}
+
+          {/* Contact form placeholder — uncomment or toggle formMode to "form" or "both" */}
+          {(formMode === "form" || formMode === "both") && (
+            <div className="mt-8 max-w-md mx-auto border border-ink/10 rounded-sm p-6 bg-cream-dark/30">
+              <p className="text-ink-muted text-sm mb-4">Or send us a message directly:</p>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  window.location.href = `mailto:${SITE.email}`;
+                }}
+                className="space-y-3"
+              >
+                <input
+                  type="text"
+                  placeholder="Your name"
+                  className="w-full px-4 py-2.5 text-sm border border-ink/10 rounded-sm bg-cream focus:outline-none focus:border-gold/50 transition-colors"
+                />
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  className="w-full px-4 py-2.5 text-sm border border-ink/10 rounded-sm bg-cream focus:outline-none focus:border-gold/50 transition-colors"
+                />
+                <textarea
+                  placeholder="Tell us about your company and what you're looking for..."
+                  rows={3}
+                  className="w-full px-4 py-2.5 text-sm border border-ink/10 rounded-sm bg-cream focus:outline-none focus:border-gold/50 transition-colors resize-none"
+                />
+                <button
+                  type="submit"
+                  className="w-full py-2.5 text-sm font-medium bg-ink text-cream rounded-sm hover:bg-navy transition-colors"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* Individual team emails */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            {TEAM.principals.map((p, i) => (
+              <a
+                key={i}
+                href={`mailto:${p.emailPrefix}@gtmventureadvisors.com`}
+                className="text-teal hover:text-ink text-xs font-medium transition-colors underline underline-offset-2 decoration-teal/40"
+              >
+                {p.name.split(" ")[0]}
+              </a>
+            ))}
+          </div>
+
           <p className="mt-6 text-ink-muted text-sm">
             {SITE.address}
           </p>
           <p className="mt-2 text-ink-muted text-xs">
             {SITE.name} · A wholly owned subsidiary of the Toronto Business Development Centre
           </p>
-          <p className="mt-8 text-ink-muted text-[0.65rem] max-w-lg mx-auto leading-relaxed">
+          <p className="mt-6 text-ink-muted text-[0.65rem] max-w-lg mx-auto leading-relaxed">
             [Regulatory disclosure placeholder — securities advisory disclosures to be added here prior to launch.]
           </p>
         </div>
@@ -795,9 +1016,9 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="bg-cream-dark py-10 px-5 md:px-8 lg:px-16">
+    <footer className="bg-cream-dark py-8 px-5 md:px-8 lg:px-16">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2.5">
             <div className="flex flex-col gap-[3px]">
               <div className="w-4 h-[2px] bg-gold" />
@@ -812,7 +1033,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-ink/10 pt-8">
+        <div className="border-t border-ink/10 pt-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
             <div>
               <p className="text-[0.7rem] uppercase tracking-[0.12em] text-ink-muted font-medium mb-3">Contact</p>
@@ -838,12 +1059,9 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-ink/10">
+        <div className="mt-6 pt-4 border-t border-ink/10">
           <p className="text-ink-muted text-xs">
             © {new Date().getFullYear()} {SITE.name}. A wholly owned subsidiary of the Toronto Business Development Centre.
-          </p>
-          <p className="text-ink-muted text-[0.6rem] italic mt-2">
-            Hero imagery represents the types of founders and engagements GTM advises. Not depictions of specific clients.
           </p>
         </div>
       </div>
@@ -862,12 +1080,13 @@ export default function App() {
       <Nav />
       <main>
         <HeroSection />
+        <TBDCLockup />
         <PhilosophyStatement />
         {PILLAR_SECTIONS.map((pillar, i) => (
           <QuoteSection key={i} {...pillar} />
         ))}
         <TeamSection />
-        <PastEmployersSection />
+        <TBDCExpertiseSection />
         <ServicesSection />
         <PullQuoteSection />
         <GoldRule />
