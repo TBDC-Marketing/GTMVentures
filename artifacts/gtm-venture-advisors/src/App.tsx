@@ -160,7 +160,6 @@ const NETWORK_CATEGORIES = [
   ["Strategic Investors"],
 ];
 
-const PAST_EMPLOYERS = ["PwC", "HSBC", "National Bank Financial", "Stifel", "Johnson & Johnson", "ATB Capital Markets", "Desjardins"];
 
 const PARTNER_LOGOS = [
   { src: `${BASE}logo-pwc.png`, alt: "PwC" },
@@ -762,18 +761,14 @@ function TBDCExpertiseSection() {
               </a>
               .
             </p>
+            <p className="text-sm md:text-base text-ink-muted leading-relaxed max-w-2xl mx-auto mt-3">
+              Our team brings institutional experience across capital markets, banking, consulting, and global enterprise — amplified by TBDC's founder network.
+            </p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.15}>
           <LogoCarousel />
-        </FadeIn>
-
-        <FadeIn delay={0.2}>
-          <p className="mt-8 text-center text-ink-muted text-sm italic">
-            Where our team has worked:{" "}
-            {PAST_EMPLOYERS.join(" · ")}
-          </p>
         </FadeIn>
       </div>
     </section>
