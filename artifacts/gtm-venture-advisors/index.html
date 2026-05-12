@@ -15,6 +15,51 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      document.addEventListener(
+        "submit",
+        function (event) {
+          var form = event.target;
+          if (!(form instanceof HTMLFormElement) || !form.closest("#contact")) {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopImmediatePropagation();
+
+          var name = form.querySelector('input[type="text"]');
+          var email = form.querySelector('input[type="email"]');
+          var message = form.querySelector("textarea");
+          var endpoint = "https://formsubmit.co/info@gtmventureadvisors.com";
+          var submission = document.createElement("form");
+          var fields = {
+            name: name ? name.value : "",
+            email: email ? email.value : "",
+            message: message ? message.value : "",
+            _subject: "New GTM Venture Advisors website inquiry",
+            _template: "table",
+            _captcha: "false",
+            _next: window.location.href.split("#")[0] + "#contact",
+          };
+
+          submission.method = "POST";
+          submission.action = endpoint;
+          submission.style.display = "none";
+
+          Object.keys(fields).forEach(function (fieldName) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = fieldName;
+            input.value = fields[fieldName];
+            submission.appendChild(input);
+          });
+
+          document.body.appendChild(submission);
+          submission.submit();
+        },
+        true,
+      );
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
