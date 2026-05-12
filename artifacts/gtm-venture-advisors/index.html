@@ -16,6 +16,29 @@
   <body>
     <div id="root"></div>
     <script>
+      function showContactConfirmation() {
+        if (new URLSearchParams(window.location.search).get("submitted") !== "true") {
+          return;
+        }
+
+        var form = document.querySelector("#contact form");
+        if (!form || document.querySelector("#contact-submission-message")) {
+          return;
+        }
+
+        var message = document.createElement("p");
+        message.id = "contact-submission-message";
+        message.setAttribute("role", "status");
+        message.textContent = "Your form has been submitted. A member of our team will review and respond to you.";
+        message.className = "mb-4 rounded-sm border border-gold/30 bg-cream px-4 py-3 text-sm leading-relaxed text-ink";
+        form.parentElement.insertBefore(message, form);
+      }
+
+      window.addEventListener("load", function () {
+        showContactConfirmation();
+        window.setTimeout(showContactConfirmation, 250);
+      });
+
       document.addEventListener(
         "submit",
         function (event) {
@@ -31,6 +54,7 @@
           var email = form.querySelector('input[type="email"]');
           var message = form.querySelector("textarea");
           var endpoint = "https://formsubmit.co/info@gtmventureadvisors.com";
+          var returnUrl = window.location.origin + window.location.pathname + "?submitted=true#contact";
           var submission = document.createElement("form");
           var fields = {
             name: name ? name.value : "",
@@ -39,7 +63,7 @@
             _subject: "New GTM Venture Advisors website inquiry",
             _template: "table",
             _captcha: "false",
-            _next: window.location.href.split("#")[0] + "#contact",
+            _next: returnUrl,
           };
 
           submission.method = "POST";
