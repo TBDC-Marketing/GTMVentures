@@ -81,17 +81,6 @@ const TEAM = {
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
       credentials: ["BASc Mechanical Engineering (University of Toronto)", "MBA (Ivey Business School)", "P.Eng."],
     },
-    {
-      initials: "DK",
-      photo: `${BASE}principal-david.webp`,
-      name: "David Kideckel",
-      title: "Managing Director",
-      short: "Life sciences equity research and CFO advisory — 20+ years.",
-      linkedin: "https://www.linkedin.com/in/davidkideckel/",
-      emailPrefix: "david",
-      bio: "20+ years across life sciences, capital markets, and corporate advisory. Founder of Kideckel Advisory Group. Former Head of Life Sciences Equity Research at ATB Capital Markets. Leadership roles at Johnson & Johnson and Alexion Pharmaceuticals.",
-      credentials: ["PhD Neuroscience & Statistics (University of Toronto)", "MBA (University of Toronto)"],
-    },
   ],
 };
 
