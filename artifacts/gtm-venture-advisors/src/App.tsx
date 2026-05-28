@@ -63,7 +63,7 @@ const TEAM = {
       initials: "NK",
       photo: `${BASE}principal-nitin.webp`,
       name: "Nitin Kaushal",
-      title: "Senior Managing Director",
+      title: "Managing Director",
       short: "Capital markets across technology and healthcare — 35+ years.",
       linkedin: "https://www.linkedin.com/in/nitin-kaushal-a4478425/",
       emailPrefix: "nitin",
@@ -99,7 +99,7 @@ const PILLAR_SECTIONS = [
     image: `${BASE}pillar-institutional.webp`,
     alt: "Architectural detail of a modern boardroom interior",
     headline: "We're institutional.",
-    body: "Our partners bring 80+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique.",
+    body: "Our partners bring 60+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique.",
   },
   {
     imagePosition: "left" as const,
@@ -620,7 +620,7 @@ function TeamSection() {
           Decades of <em className="text-gold">global experience.</em>
         </h2>
         <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed max-w-xl">
-          Our principals bring 80+ years of combined capital markets expertise from the world's leading financial institutions.
+          Our principals bring 60+ years of combined capital markets expertise from the world's leading financial institutions.
         </p>
       </FadeIn>
 
@@ -852,7 +852,7 @@ function ServicesSection() {
 function PullQuoteSection() {
   /* Quote content — easy to swap with an approved final quote */
   const quoteText = "When you're scaling internationally, you don't need another consultant. You need someone who's sat on both sides of the boardroom.";
-  const quoteAttribution = "Nitin Kaushal, Senior Managing Director";
+  const quoteAttribution = "Nitin Kaushal, Managing Director";
 
   return (
     <section className="bg-cream py-16 md:py-20">
@@ -862,7 +862,7 @@ function PullQuoteSection() {
             <div className="aspect-[4/5] overflow-hidden rounded-sm">
               <SafeImage
                 src={`${BASE}quote-nitin.webp`}
-                alt="Nitin Kaushal, Senior Managing Director"
+                alt="Nitin Kaushal, Managing Director"
               />
             </div>
             <div className="max-w-[420px]">
