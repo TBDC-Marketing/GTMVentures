@@ -12,6 +12,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      @media (min-width: 1024px) {
+        #team .gtm-two-partner-grid {
+          display: grid !important;
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          gap: clamp(2.5rem, 5vw, 5rem) !important;
+          max-width: 76rem !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          align-items: start !important;
+        }
+
+        #team .gtm-two-partner-grid > * {
+          width: 100% !important;
+          max-width: 34rem !important;
+          justify-self: center !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -34,9 +53,74 @@
         form.parentElement.insertBefore(message, form);
       }
 
+      function replaceInstitutionalCopy() {
+        var original = "Our partners bring 60+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique.";
+        var revised = "Our partners bring 60+ years of combined experience from PwC, HSBC, National Bank Financial, and ATB Capital Markets. You get the discipline of global firms with the speed of a boutique.";
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        var node;
+
+        while ((node = walker.nextNode())) {
+          if (node.nodeValue && node.nodeValue.indexOf(original) !== -1) {
+            node.nodeValue = node.nodeValue.replace(original, revised);
+            return true;
+          }
+        }
+
+        return false;
+      }
+
+      function applyTwoPartnerLayout() {
+        var team = document.querySelector("#team");
+        if (!team) {
+          return false;
+        }
+
+        var nameNodes = Array.prototype.filter.call(team.querySelectorAll("*"), function (element) {
+          var text = element.textContent ? element.textContent.trim() : "";
+          return text === "Nitin Kaushal" || text === "Ezra Chang";
+        });
+
+        if (nameNodes.length < 2) {
+          return false;
+        }
+
+        var container = nameNodes[0].parentElement;
+        while (container && container !== team) {
+          var children = Array.prototype.slice.call(container.children);
+          var partnerCards = children.filter(function (child) {
+            var text = child.textContent || "";
+            return text.indexOf("Nitin Kaushal") !== -1 || text.indexOf("Ezra Chang") !== -1;
+          });
+
+          if (partnerCards.length === 2 && container.contains(nameNodes[1])) {
+            container.classList.add("gtm-two-partner-grid");
+            return true;
+          }
+
+          container = container.parentElement;
+        }
+
+        return false;
+      }
+
+      function applySiteOverrides() {
+        var didCopy = replaceInstitutionalCopy();
+        var didLayout = applyTwoPartnerLayout();
+        return didCopy && didLayout;
+      }
+
       window.addEventListener("load", function () {
         showContactConfirmation();
+        applySiteOverrides();
         window.setTimeout(showContactConfirmation, 250);
+
+        var attempts = 0;
+        var retry = window.setInterval(function () {
+          attempts += 1;
+          if (applySiteOverrides() || attempts > 20) {
+            window.clearInterval(retry);
+          }
+        }, 150);
       });
 
       document.addEventListener(
