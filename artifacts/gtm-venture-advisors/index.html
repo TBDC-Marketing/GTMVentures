@@ -69,6 +69,18 @@
         return false;
       }
 
+      function removeJohnsonAndJohnsonLogos() {
+        var logos = Array.prototype.slice.call(document.querySelectorAll('img[alt="Johnson & Johnson"]'));
+        logos.forEach(function (logo) {
+          var item = logo.parentElement;
+          if (item) {
+            item.remove();
+          }
+        });
+
+        return logos.length > 0;
+      }
+
       function applyTwoPartnerLayout() {
         var team = document.querySelector("#team");
         if (!team) {
@@ -106,7 +118,8 @@
       function applySiteOverrides() {
         var didCopy = replaceInstitutionalCopy();
         var didLayout = applyTwoPartnerLayout();
-        return didCopy && didLayout;
+        var didLogoCleanup = removeJohnsonAndJohnsonLogos();
+        return didCopy && didLayout && didLogoCleanup;
       }
 
       window.addEventListener("load", function () {
