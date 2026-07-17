@@ -81,6 +81,17 @@ const TEAM = {
       bio: "25+ years at the intersection of engineering, technology, and high-growth finance. $1B+ in managed financings and M&A advisory across ATB Capital Markets, Stifel Nicolaus, and National Bank Financial. Most recently led corporate development and M&A at a leading data centre infrastructure company.",
       credentials: ["BASc Mechanical Engineering (University of Toronto)", "MBA (Ivey Business School)", "P.Eng."],
     },
+    {
+      initials: "AK",
+      photo: `${BASE}principal-anish.webp`,
+      name: "Anish Kaushal",
+      title: "Vice President",
+      short: "MD by training, VC for 7+ years across biotech and medtech.",
+      linkedin: "https://www.linkedin.com/in/anish-kaushal-md/",
+      emailPrefix: "anish",
+      bio: "MD by training and VC for 7+ years in Europe and North America having analyzed over 1000+ companies and led deals in biotech/medtech with board experience. Deep relationships with life sciences investors globally.",
+      credentials: ["BSc Medicine (University of St. Andrews)", "MBChB (University of Edinburgh)"],
+    },
   ],
 };
 
