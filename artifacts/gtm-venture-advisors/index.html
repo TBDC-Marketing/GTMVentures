@@ -2,131 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <meta name="description" content="GTM Venture Advisors — Capital Markets & Financial Advisory for high-growth international founders. A TBDC Company." />
-    <meta property="og:title" content="GTM Venture Advisors — Capital Markets & Financial Advisory" />
-    <meta property="og:description" content="Scaling International Founders into North American Institutional Capital. A TBDC Company." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="GTM Venture Advisors — Capital Markets & Cross-Border Advisory for Series A to pre-IPO companies. A TBDC Company." />
+    <link rel="canonical" href="https://gtmventureadvisors.com/" />
+    <meta property="og:title" content="GTM Venture Advisors — Capital Markets & Cross-Border Advisory" />
+    <meta property="og:description" content="We help Series A to pre-IPO companies raise capital and execute North American expansion. A TBDC Company." />
     <meta property="og:type" content="website" />
-    <title>GTM Venture Advisors — Capital Markets & Financial Advisory | A TBDC Company</title>
+    <meta property="og:url" content="https://gtmventureadvisors.com/" />
+    <meta property="og:image" content="https://gtmventureadvisors.com/opengraph.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GTM Venture Advisors — Capital Markets & Cross-Border Advisory" />
+    <meta name="twitter:description" content="We help Series A to pre-IPO companies raise capital and execute North American expansion. A TBDC Company." />
+    <meta name="twitter:image" content="https://gtmventureadvisors.com/opengraph.jpg" />
+    <title>GTM Venture Advisors — Capital Markets & Cross-Border Advisory | A TBDC Company</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      function showContactConfirmation() {
-        if (new URLSearchParams(window.location.search).get("submitted") !== "true") {
-          return;
-        }
-
-        var form = document.querySelector("#contact form");
-        if (!form || document.querySelector("#contact-submission-message")) {
-          return;
-        }
-
-        var message = document.createElement("p");
-        message.id = "contact-submission-message";
-        message.setAttribute("role", "status");
-        message.textContent = "Your form has been submitted. A member of our team will review and respond to you.";
-        message.className = "mb-4 rounded-sm border border-gold/30 bg-cream px-4 py-3 text-sm leading-relaxed text-ink";
-        form.parentElement.insertBefore(message, form);
-      }
-
-      function replaceInstitutionalCopy() {
-        var original = "Our partners bring 60+ years of combined experience from PwC, HSBC, National Bank Financial, ATB Capital Markets, and Johnson & Johnson. You get the discipline of global firms with the speed of a boutique.";
-        var revised = "Our partners bring 60+ years of combined experience from PwC, HSBC, National Bank Financial, and ATB Capital Markets. You get the discipline of global firms with the speed of a boutique.";
-        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-        var node;
-
-        while ((node = walker.nextNode())) {
-          if (node.nodeValue && node.nodeValue.indexOf(original) !== -1) {
-            node.nodeValue = node.nodeValue.replace(original, revised);
-            return true;
-          }
-        }
-
-        return false;
-      }
-
-      function removeJohnsonAndJohnsonLogos() {
-        var logos = Array.prototype.slice.call(document.querySelectorAll('img[alt="Johnson & Johnson"]'));
-        logos.forEach(function (logo) {
-          var item = logo.parentElement;
-          if (item) {
-            item.remove();
-          }
-        });
-
-        return logos.length > 0;
-      }
-
-      function applySiteOverrides() {
-        var didCopy = replaceInstitutionalCopy();
-        var didLogoCleanup = removeJohnsonAndJohnsonLogos();
-        return didCopy && didLogoCleanup;
-      }
-
-      window.addEventListener("load", function () {
-        showContactConfirmation();
-        applySiteOverrides();
-        window.setTimeout(showContactConfirmation, 250);
-
-        var attempts = 0;
-        var retry = window.setInterval(function () {
-          attempts += 1;
-          if (applySiteOverrides() || attempts > 20) {
-            window.clearInterval(retry);
-          }
-        }, 150);
-      });
-
-      document.addEventListener(
-        "submit",
-        function (event) {
-          var form = event.target;
-          if (!(form instanceof HTMLFormElement) || !form.closest("#contact")) {
-            return;
-          }
-
-          event.preventDefault();
-          event.stopImmediatePropagation();
-
-          var name = form.querySelector('input[type="text"]');
-          var email = form.querySelector('input[type="email"]');
-          var message = form.querySelector("textarea");
-          var endpoint = "https://formsubmit.co/info@gtmventureadvisors.com";
-          var returnUrl = window.location.origin + window.location.pathname + "?submitted=true#contact";
-          var submission = document.createElement("form");
-          var fields = {
-            name: name ? name.value : "",
-            email: email ? email.value : "",
-            message: message ? message.value : "",
-            _subject: "New GTM Venture Advisors website inquiry",
-            _template: "table",
-            _captcha: "false",
-            _next: returnUrl,
-          };
-
-          submission.method = "POST";
-          submission.action = endpoint;
-          submission.style.display = "none";
-
-          Object.keys(fields).forEach(function (fieldName) {
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = fieldName;
-            input.value = fields[fieldName];
-            submission.appendChild(input);
-          });
-
-          document.body.appendChild(submission);
-          submission.submit();
-        },
-        true,
-      );
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
