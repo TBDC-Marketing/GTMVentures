@@ -15,7 +15,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative bg-brand-navy-deep text-brand-ivory pt-32 md:pt-40 pb-14 md:pb-20 overflow-hidden"
+      className="relative bg-brand-navy-deep text-brand-ivory pt-32 md:pt-36 pb-14 md:pb-16 overflow-hidden"
       style={{ ["--focus-offset-color" as string]: "#04111F" }}
     >
       {/* Navy field with a subtle radial glow behind the headline */}
@@ -39,7 +39,7 @@ export function Hero() {
         </FadeIn>
 
         <FadeIn delay={0.08}>
-          <h1 className="mt-5 font-display font-normal text-[clamp(2.6rem,6.5vw,6.5rem)] leading-[1.02] tracking-[-0.02em] max-w-[17ch]">
+          <h1 className="mt-5 font-display font-normal text-[clamp(2.6rem,5.8vw,5.5rem)] leading-[1.02] tracking-[-0.02em] max-w-[20ch]">
             {HERO.headlineBefore}
             <em className="text-brand-gold">{HERO.headlineEmphasis}</em>
             {HERO.headlineAfter}
@@ -72,7 +72,7 @@ export function Hero() {
             {HERO_SECTORS.map((sector) => (
               <div key={sector.label} className="group flex flex-col">
                 <div aria-hidden="true" className="h-px w-full bg-brand-gold/60 mb-4" />
-                <div className="relative w-full aspect-[4/3] sm:aspect-[4/5] md:aspect-[4/4.4] overflow-hidden rounded-sm">
+                <div className="relative w-full aspect-[4/3] sm:aspect-[4/5] md:aspect-[4/3.6] overflow-hidden rounded-sm">
                   <SafeImage
                     src={sector.image}
                     alt={sector.alt}
