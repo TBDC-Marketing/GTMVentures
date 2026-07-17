@@ -1,22 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
-
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #F0EBE1;
-  --color-cream-dark: #E8E2D6;
-  --color-ink: #1A1A1A;
-  --color-ink-soft: #2D2D2D;
-  --color-ink-muted: #6B6B6B;
-  --color-navy: #0A1628;
-  --color-navy-soft: #1A2438;
-  --color-teal: #00838F;
-  --color-gold: #D4A843;
-  --color-gold-deep: #B8943B;
-  --color-warm-accent: #C84D2E;
+  --color-brand-navy: #07182D;
+  --color-brand-navy-deep: #04111F;
+  --color-brand-navy-soft: #102943;
+  --color-brand-gold: #C6A15B;
+  --color-brand-gold-deep: #A9843F;
+  --color-brand-ivory: #F6F1E7;
+  --color-brand-slate: #536579;
+  --color-brand-white: #FFFCF7;
+  --color-brand-rule: rgba(198, 161, 91, 0.35);
 
-  --font-display: "Instrument Serif", serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: "Inter", Arial, sans-serif;
 }
 
 html {
@@ -26,26 +22,37 @@ html {
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
-  background-color: #F0EBE1;
-  color: #1A1A1A;
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #07182D;
+  color: #F6F1E7;
+}
+
+/* Gold focus ring, offset per surface via CSS variable */
+:root {
+  --focus-offset-color: #07182D;
+}
+
+:focus-visible {
+  outline: 2px solid #C6A15B;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-offset-color);
 }
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F0EBE1;
+  background: #04111F;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E8E2D6;
+  background: #102943;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4A843;
+  background: #C6A15B;
 }
 
 ::selection {
-  background-color: rgba(212, 168, 67, 0.2);
-  color: #1A1A1A;
+  background-color: rgba(198, 161, 91, 0.3);
+  color: #F6F1E7;
 }
